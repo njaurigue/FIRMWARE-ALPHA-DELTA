@@ -12,7 +12,7 @@ testing = True
 phoneIn = False
 export = []
 
-# Detection method funcitonal for testing and official use
+# Detection method functional for testing and official use
 #
 # Parameters:
 # phoneIn - whether phone is currently in or out of device
@@ -67,8 +67,6 @@ def countdown(t, testing):
         now = datetime.now()
         print(now.strftime("%H:%M:%S"))
     return 0
-
-#def interrupt():
 
 while True:
     detect(phoneIn, testing)
