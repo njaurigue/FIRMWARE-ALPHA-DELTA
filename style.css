@@ -6,6 +6,7 @@ html{
 body{
     height: 100%;
     width: 100%;
+    margin: 0;
 
     background-color: #7fbadc;
     display: flex;
@@ -14,6 +15,36 @@ body{
     justify-content: center;
 }
 
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 h1{
     text-align: center;
+}
+
+.buttons{
+    width: 100vw;
+    position: absolute;
+    bottom: 0px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.button{
+    all: unset;
+    width: 25vw;
+    text-align: center;
+    color:#7fbadc
+}
+
+#timerButton{
+    all: unset;
+    color: black;
 }
