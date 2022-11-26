@@ -29,7 +29,7 @@ h1{
 .buttons{
     width: 100vw;
     position: absolute;
-    bottom: 0px;
+    bottom: 1vh;
 
     display: flex;
     flex-direction: row;

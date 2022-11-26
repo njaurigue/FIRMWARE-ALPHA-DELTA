@@ -1,13 +1,27 @@
 var manual = false;
 var minutes = 25; /*DEFAULT 25 MINUTES*/
+var phoneIn = true;
 
 /*
  * timer(minutes)
  * Begin study session of specified length
  */ 
-async function timer(minutes){
-    var now = new Date(new Date().getTime());
+async function timer(){
+    console.log(minutes);
+    var now = moment().toDate().getTime();
+    var end = now + minutes*60*1000;
     console.log(now);
+    console.log(end);
+
+    while((now < end) && phoneIn){
+        console.log("RUNNING");
+        now = moment().toDate().getTime();
+        var diff = String((end - now)/60000);
+        var m = diff.substring(0,diff.indexOf('.'));
+        var s = String(60*parseInt(diff.substring(diff.indexOf('.') + 1))).substring(0,2);
+        document.getElementById("timer").innerHTML = m + ":" + s;
+        await sleep(0.25);
+    }
     setEmotion("eating");
     await sleep(3);
     setEmotion("happy");
@@ -80,9 +94,9 @@ function setVisibility(){
  */
 document.addEventListener("keydown", e => {
     console.log(e);
-    if(e.key == ' '){
+    /*if(e.key == ' '){
         timer();
-    }
+    }*/
 });
 
 function sleep(ms) {
