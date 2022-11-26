@@ -7,6 +7,7 @@ var phoneIn = true;
  * Begin study session of specified length
  */ 
 async function timer(){
+    tempEmotion("eating");
     console.log(minutes);
     var now = moment().toDate().getTime();
     var end = now + minutes*60*1000;
@@ -22,9 +23,11 @@ async function timer(){
         document.getElementById("clock").innerHTML = m + ":" + s;
         await sleep(0.25);
     }
-    setEmotion("eating");
-    await sleep(3);
-    setEmotion("happy");
+    console.log("DONE");
+}
+
+function interrupt(){
+    phoneIn = false;
 }
 
 /*
@@ -65,6 +68,19 @@ function setEmotion(emotion){
         default:
             src = "GIFS/emotionGrin.gif";
     }
+    document.getElementById("face").src = src;
+}
+
+/*
+ * tempEmotion(emotion):
+ * Temporarily change Taumy's visual emotion to desired GIF, 
+ * then swap back to previous state
+ */
+async function tempEmotion(emotion){
+    var src = document.getElementById("face").src;
+    console.log("CURR: " + src);
+    setEmotion(emotion);
+    await sleep(4);
     document.getElementById("face").src = src;
 }
 

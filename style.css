@@ -38,13 +38,15 @@ h1{
 }
 
 .button{
-    all: unset;
     width: 25vw;
     text-align: center;
     color:#7fbadc
 }
 
 #timerButton{
-    all: unset;
     color: black;
+}
+
+button{
+    all: unset;
 }

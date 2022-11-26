@@ -13,8 +13,8 @@ driver = webdriver.Chrome(executable_path=r'C:\Users\noahd\Downloads\chromedrive
 driver.get('https://njaurigue.github.io/FIRMWARE-ALPHA-DELTA/')
 driver.fullscreen_window()
 
-time.sleep(1)
-driver.find_element(By.ID, 'timer').click()
+time.sleep(3)
+driver.find_element(By.ID, 'start').click()
 
 
 time.sleep(200)
