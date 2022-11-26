@@ -37,7 +37,7 @@ function adjustTime(min){
     }else if(min > 0){
         minutes += min;
     }
-    document.getElementById("timer").innerHTML = minutes + ":00";
+    document.getElementById("clock").innerHTML = minutes + ":00";
     console.log(minutes)
 }
 
