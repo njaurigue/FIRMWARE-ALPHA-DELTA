@@ -19,7 +19,7 @@ async function timer(){
         var diff = String((end - now)/60000);
         var m = diff.substring(0,diff.indexOf('.'));
         var s = String(60*parseInt(diff.substring(diff.indexOf('.') + 1))).substring(0,2);
-        document.getElementById("timer").innerHTML = m + ":" + s;
+        document.getElementById("clock").innerHTML = m + ":" + s;
         await sleep(0.25);
     }
     setEmotion("eating");

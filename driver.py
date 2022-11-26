@@ -13,11 +13,14 @@ driver = webdriver.Chrome(executable_path=r'C:\Users\noahd\Downloads\chromedrive
 driver.get('https://njaurigue.github.io/FIRMWARE-ALPHA-DELTA/')
 driver.fullscreen_window()
 
-proximity = False
-while True:
-    if proximity:
-        driver.find_element(By.CLASS_NAME, 'button').click()
-    
+time.sleep(1)
+driver.find_element(By.ID, 'timer').click()
 
 
 time.sleep(200)
+
+proximity = False
+
+while True:
+    if proximity:
+        driver.find_element(By.CLASS_NAME, 'button').click()
