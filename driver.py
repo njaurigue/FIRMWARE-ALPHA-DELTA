@@ -13,14 +13,12 @@ driver = webdriver.Chrome(executable_path=r'C:\Users\noahd\Downloads\chromedrive
 driver.get('https://njaurigue.github.io/FIRMWARE-ALPHA-DELTA/')
 driver.fullscreen_window()
 
-time.sleep(3)
-driver.find_element(By.ID, 'start').click()
-
-
 time.sleep(200)
 
-proximity = False
+#WHEN PHONE IS DETECTED IN
+driver.find_element(By.ID, 'start').click()
 
-while True:
-    if proximity:
-        driver.find_element(By.CLASS_NAME, 'button').click()
+#WHEN PHONE IS DETECTED OUT PREMATURELY
+driver.find_element(By.ID, 'checkExit').click()
+
+

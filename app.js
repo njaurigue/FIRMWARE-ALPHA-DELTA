@@ -1,33 +1,56 @@
 var manual = false;
 var minutes = 25; /*DEFAULT 25 MINUTES*/
 var phoneIn = true;
+var studying = false;
 
 /*
- * timer(minutes)
+ * checkEnter()
+ * Check whether phone was removed during or outside of a session.
+ * return - false if not studying, true if studying
+ */
+function checkEnter(){
+    if(!studying){
+        start();
+        return;
+    }
+    //otherwise, call function to continue session
+}
+
+/*
+ * checkExit()
+ * Check whether phone was removed during or outside of a session.
+ * return false
+ */
+function checkExit(){
+    if(!studying){
+        return;
+    }
+    //otherwise, call function to give 10s countdown
+}
+
+/*
+ * start(minutes)
  * Begin study session of specified length
  */ 
-async function timer(){
+async function start(){
+    studying = true;
     tempEmotion("eating");
-    console.log(minutes);
     var now = moment().toDate().getTime();
-    var end = now + minutes*60*1000;
+    var target = now + minutes*60*1000;
     console.log(now);
-    console.log(end);
+    console.log(target);
 
-    while((now < end) && phoneIn){
+    while((now < target) && phoneIn){
         console.log("RUNNING");
         now = moment().toDate().getTime();
-        var diff = String((end - now)/60000);
+        var diff = String((target - now)/60000);
         var m = diff.substring(0,diff.indexOf('.'));
         var s = String(60*parseInt(diff.substring(diff.indexOf('.') + 1))).substring(0,2);
         document.getElementById("clock").innerHTML = m + ":" + s;
         await sleep(0.25);
     }
+    studying = false;
     console.log("DONE");
-}
-
-function interrupt(){
-    phoneIn = false;
 }
 
 /*
