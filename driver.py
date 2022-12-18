@@ -24,7 +24,6 @@ options.add_experimental_option("excludeSwitches", ['enable-automation'])
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 driver.get('https://njaurigue.github.io/FIRMWARE-ALPHA-DELTA/')
 driver.fullscreen_window()
-time.sleep(200)
 
 # readSonar()
 # Retrieve distance read from Sonar sensor
@@ -60,7 +59,7 @@ while True:
     old = q.pop(0)
     if(old - q[-1] > 3):
         driver.find_element(By.ID, 'checkEnter').click()
-    if(old -q[-1] < -3):
+    if(old - q[-1] < -3):
         driver.find_element(By.ID, 'checkExit').click()
     if(driver.find_element(By.ID, 'text').text == "ABORTING"):
         break
