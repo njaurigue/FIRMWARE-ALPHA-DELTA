@@ -1,4 +1,2 @@
-pip install keyboard
-pip install board
-
-download moment.js
+pip install selenium
+py -3 -m pip install webdriver_manager

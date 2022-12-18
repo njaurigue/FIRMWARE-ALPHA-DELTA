@@ -3,20 +3,20 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 
 #GPIO SETUP
-#GPIO.setmode(GPIO.BOARD)
-#
-#PIN_TRIGGER = 7
-#PIN_ECHO = 11
-#
-#GPIO.setup(PIN_TRIGGER, GPIO.OUT)
-#GPIO.setup(PIN_ECHO, GPIO.IN)
-#GPIO.output(PIN_TRIGGER, GPIO.LOW)
-#
-#time.sleep(2)
+GPIO.setmode(GPIO.BOARD)
+
+PIN_TRIGGER = 7
+PIN_ECHO = 11
+
+GPIO.setup(PIN_TRIGGER, GPIO.OUT)
+GPIO.setup(PIN_ECHO, GPIO.IN)
+GPIO.output(PIN_TRIGGER, GPIO.LOW)
+
+time.sleep(2)
 
 #Selenium Chrome Driver Setup
 options = Options()
