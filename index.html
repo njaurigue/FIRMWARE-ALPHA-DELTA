@@ -5,14 +5,17 @@
         <title>Taumy UI</title>
         <link href="style.css" rel="stylesheet" type="text/css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-        <script src="app.js"></script>
+        <script src="appNEW.js"></script>
     </head>
     <body id="body" onload="adjustTime(0)">
         <div class="main">
-            <h1>Hi I'm Taumy!</h1>
-            <img id="face" src="GIFS/emotionHappy.gif">
+            <h1 id="text">Hi I'm Taumy!</h1>
+            <button id="ABORT" onclick="abort()"><img id="face" src="GIFS/emotionHappy.gif"></button>
             <button id="timerButton" onclick="setVisibility()"><h1 id="clock">0:00</h1></button>
-            <button class="button" id="checkExit" onclick="checkExit()">checkExit</button>
+            <div class="checks">
+                <button class="button" id="checkExit" onclick="checkExit()">checkExit</button>
+                <button class="button" id="checkEnter" onclick="checkEnter()">checkEnter</button>
+            </div>
             <div class="buttons">
                 <button class="button" id="start" onclick="start()">Start</button>
                 <button class="button" id="up" onclick="adjustTime(5)">UP</button>
