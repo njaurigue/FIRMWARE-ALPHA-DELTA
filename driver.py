@@ -1,31 +1,30 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver import Chrome
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 
 #GPIO SETUP
-GPIO.setmode(GPIO.BOARD)
-
-PIN_TRIGGER = 7
-PIN_ECHO = 11
-
-GPIO.setup(PIN_TRIGGER, GPIO.OUT)
-GPIO.setup(PIN_ECHO, GPIO.IN)
-GPIO.output(PIN_TRIGGER, GPIO.LOW)
-
-time.sleep(2)
+#GPIO.setmode(GPIO.BOARD)
+#
+#PIN_TRIGGER = 7
+#PIN_ECHO = 11
+#
+#GPIO.setup(PIN_TRIGGER, GPIO.OUT)
+#GPIO.setup(PIN_ECHO, GPIO.IN)
+#GPIO.output(PIN_TRIGGER, GPIO.LOW)
+#
+#time.sleep(2)
 
 #Selenium Chrome Driver Setup
-chrome_options = Options()
-chrome_options.add_argument("user-data-dir=C:\environments\selenium")
-chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])
-driver = webdriver.Chrome(executable_path=r'C:\Users\noahd\Downloads\chromedriver_win32 (1)\chromedriver.exe', chrome_options=chrome_options)
+options = Options()
+options.add_experimental_option("excludeSwitches", ['enable-automation'])
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 driver.get('https://njaurigue.github.io/FIRMWARE-ALPHA-DELTA/')
 driver.fullscreen_window()
+time.sleep(200)
 
 # readSonar()
 # Retrieve distance read from Sonar sensor
