@@ -41,7 +41,6 @@ function checkExit(){
     }
 
     exitEarly();
-    //otherwise, call function to give 10s countdown
 }
 
 /*

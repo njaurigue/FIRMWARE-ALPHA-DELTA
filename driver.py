@@ -30,12 +30,10 @@ driver.fullscreen_window()
 # return - distance in centimeters
 def readSonar():
     try:
-        print ("Calculating distance")
+        print("Calculating distance")
 
         GPIO.output(PIN_TRIGGER, GPIO.HIGH)
-
         time.sleep(0.00001)
-
         GPIO.output(PIN_TRIGGER, GPIO.LOW)
 
         while GPIO.input(PIN_ECHO)==0:
@@ -50,18 +48,23 @@ def readSonar():
     except:
         print("Sensor Read Failed")
 
+q = []
+first = False
 while True:
-    q = []
     q.append(readSonar())
+    if first == False:
+        q.pop(0)
+        first = True
+        continue
     if(len(q) < 5):
         continue
 
     old = q.pop(0)
-    if(old - q[-1] > 3):
-        driver.find_element(By.ID, 'checkEnter').click()
-    if(old - q[-1] < -3):
-        driver.find_element(By.ID, 'checkExit').click()
-    if(driver.find_element(By.ID, 'text').text == "ABORTING"):
+    if(old - q[-1] > 1):
+        driver.find_element(By.ID, 'checkEnter').click() #PHONE ENTERS
+    if(old - q[-1] < -1):
+        driver.find_element(By.ID, 'checkExit').click()  #PHONE EXITS
+    if(driver.find_element(By.ID, 'text').get_attribute('innerHTML') == "ABORTING"):
         break
     time.sleep(1)
 
