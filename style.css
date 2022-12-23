@@ -40,9 +40,10 @@ h1{
 }
 
 .button{
+    font-size: 1vh;
     width: 25vw;
     text-align: center;
-    color:black 
+    color:#7fbadc;
 }
 
 #timerButton{

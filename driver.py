@@ -51,6 +51,7 @@ def readSonar():
 q = []
 first = False
 while True:
+    time.sleep(1) #<----------
     q.append(readSonar())
     if first == False:
         q.pop(0)
@@ -60,12 +61,11 @@ while True:
         continue
 
     old = q.pop(0)
-    if(old - q[-1] > 1):
+    if(old - q[-1] > 10):
         driver.find_element(By.ID, 'checkEnter').click() #PHONE ENTERS
-    if(old - q[-1] < -1):
+    if(old - q[-1] < -10):
         driver.find_element(By.ID, 'checkExit').click()  #PHONE EXITS
     if(driver.find_element(By.ID, 'text').get_attribute('innerHTML') == "ABORTING"):
         break
-    time.sleep(1)
 
 GPIO.cleanup()
