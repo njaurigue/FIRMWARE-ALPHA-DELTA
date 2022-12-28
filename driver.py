@@ -15,6 +15,14 @@ PIN_ECHO = 11
 GPIO.setup(PIN_TRIGGER, GPIO.OUT)
 GPIO.setup(PIN_ECHO, GPIO.IN)
 GPIO.output(PIN_TRIGGER, GPIO.LOW)
+button3 = 16
+button4 = 37
+button1 = 31
+button2 = 29
+GPIO.setup(button3, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setup(button4, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setup(button1, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setup(button2, GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
 time.sleep(2)
 
@@ -51,7 +59,23 @@ def readSonar():
 q = []
 first = False
 while True:
-    time.sleep(1) #<----------
+    time.sleep(1)
+    #Check for button input
+    x = 0
+    if GPIO.input(button1) == 0:
+        x=1
+    if GPIO.input(button2) == 0:
+        x=2
+        driver.find_element(By.ID, 'up').click()
+    if GPIO.input(button3) == 0:
+        x=3
+        driver.find_element(By.ID, 'down').click()
+    if GPIO.input(button4) == 0:
+        x=4
+    if x != 0:
+        print(x)
+
+    #Update Sonar readings
     q.append(readSonar())
     if first == False:
         q.pop(0)
