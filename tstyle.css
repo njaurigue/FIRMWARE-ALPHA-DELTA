@@ -57,3 +57,7 @@ h1{
 button{
     all: unset;
 }
+
+h1, h4{
+    margin: 0;
+}

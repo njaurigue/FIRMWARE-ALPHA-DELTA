@@ -5,6 +5,16 @@ var studying = false; //true when session is ongoing, false otherwise
 var now = 0; //current time
 var remainder = 0; //remaining time left in session in mimutes
 
+//DELIVERABLES
+var output = {
+    "userId":"0",
+    "duration":"0",
+    "success":true,
+    "startTime":"0",
+    "endTime":"0",
+    "date":"0"
+};
+
 //temp testing
 function abort(){
     console.log("ABORTING");
@@ -23,6 +33,9 @@ function checkEnter(){
     phoneIn = true;
     if(!studying){
         studying = true;
+        output["duration"] = String(minutes) + "m";
+        output["startTime"] = String(moment().format('h:mm a')).replace(' ','');
+        output["date"] = String(moment().format("MM/DD/YY").replace(' ', '/'));
         start(minutes);
     }else{
         start(remainder);
@@ -70,6 +83,8 @@ async function start(time){ //NEED TO FIX TARGET TIME, ONLY UPDATE TARGET AT BEG
     }
     if(phoneIn){ //if phone is in after exiting loop, then session completed successfully
         console.log("DONE");
+        output["endTime"] = String(moment().format('h:mm a')).replace(' ', '');
+        console.log(output);
         studying = false;
     }
 }
@@ -175,22 +190,29 @@ function sleep(ms) {
 }
 
 /*--------------INDEX.HTML--------------*/
-user = 1
+var user = 1
 
-function onload(){
-    updateUser(0);
+function onload(type){
+    if(type == 'index'){
+        updateUser(0);
+    }else{
+        adjustTime(0);
+        document.getElementById("date").innerHTML = moment().format("MM/DD/YY")
+    }
 }
 
 function updateUser(change){
-    if(user == 1 && change < 0 || user == 4 && change > 0){
+    if(user == 1 && change < 0 || user == 5 && change > 0){
         return;
     }
-    document.getElementById("U" + String(user)).style.outline = "1px solid #7fbadc"
+    document.getElementById("U" + String(user)).style.outline = "2px solid #7fbadc"
     user += change;
-    document.getElementById("U" + String(user)).style.outline = "1px solid black"
+    document.getElementById("U" + String(user)).style.outline = "2px solid black"
 }
 
 function login(){
     //Retrieve user info
+    fetch()
+    output['userId'] = 0; //GET USER ID THRU FETCH
     window.location.href="timer.html"
 }
