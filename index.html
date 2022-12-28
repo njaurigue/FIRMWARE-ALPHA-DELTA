@@ -1,27 +1,36 @@
+<!-- LOGIN PAGE !-->
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
-        <title>Taumy UI</title>
-        <link href="style.css" rel="stylesheet" type="text/css"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-        <script src="appNEW.js"></script>
+        <title>Taumy Login</title>
+        <link href="istyle.css" rel="stylesheet" type="text/css"/>
+        <script src="app.js"></script>
     </head>
-    <body id="body" onload="adjustTime(0)">
-        <div class="main">
-            <h1 id="text">Hi I'm Taumy!</h1>
-            <button id="ABORT" onclick="abort()"><img id="face" src="GIFS/emotionHappy.gif"></button>
-            <button id="timerButton" onclick="setVisibility()"><h1 id="clock">0:00</h1></button>
-            <div class="checks">
-                <button class="button" id="checkExit" onclick="checkExit()">checkExit</button>
-                <button class="button" id="checkEnter" onclick="checkEnter()">checkEnter</button>
+    <body id="body" onload="onload()">
+        <div class="cards">
+            <div class="card" id="U1">
+                <h1 class="info">Noah Jaurigue</h1>
+                <h3 class="info">noahdj37@gmail.com</h3>
             </div>
-            <div class="buttons">
-                <button class="button" id="start" onclick="start()">Start</button>
-                <button class="button" id="up" onclick="adjustTime(5)">UP</button>
-                <button class="button" id="down" onclick="adjustTime(-5)">DOWN</button>
-                <button class="button" id="switch">SWITCH</button>
+            <div class="card" id="U2">
+                <h1 class="info">Noah Jaurigue</h1>
+                <h3 class="info">noahdj37@gmail.com</h3>            
             </div>
+            <div class="card" id="U3">
+                <h1 class="info">Noah Jaurigue</h1>
+                <h3 class="info">noahdj37@gmail.com</h3>  
+          </div>
+            <div class="card" id="U4">
+                <h1 class="info">Noah Jaurigue</h1>
+                <h3 class="info">noahdj37@gmail.com</h3>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="button" id="power">POWER</button>
+            <button class="button" id="up" onclick="updateUser(-1)">UP</button>
+            <button class="button" id="down" onclick="updateUser(1)">DOWN</button>
+            <button class="button" id="login" onclick="login()">LOGIN</button>
         </div>
     </body>
 </html>

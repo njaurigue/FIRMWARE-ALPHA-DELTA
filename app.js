@@ -1,10 +1,15 @@
 var debug = false; //switch button visibility (for testing)
 var minutes = 25;  //length of session (default 25 minutes)
-var phoneIn = true; //true when phone is in, false when phone is out
+var phoneIn = false; //true when phone is in, false when phone is out
 var studying = false; //true when session is ongoing, false otherwise
 var now = 0; //current time
-var target = 0; //target time (end time) of session
-var diff = 0; //time between now and target (end of session)
+var remainder = 0; //remaining time left in session in mimutes
+
+//temp testing
+function abort(){
+    console.log("ABORTING");
+    document.getElementById("text").innerHTML = "ABORTING";
+}
 
 /*
  * checkEnter()
@@ -12,12 +17,16 @@ var diff = 0; //time between now and target (end of session)
  * return - false if not studying, true if studying
  */
 function checkEnter(){
+    document.getElementById("body").style.backgroundColor = "#7fbadc";
+    document.getElementById("checkEnter").style.color = "#7fbadc";
+    document.getElementById("checkExit").style.color = "#7fbadc";
     phoneIn = true;
     if(!studying){
-        start();
-        return;
+        studying = true;
+        start(minutes);
+    }else{
+        start(remainder);
     }
-    //otherwise, call function to continue session
 }
 
 /*
@@ -29,40 +38,40 @@ function checkExit(){
     phoneIn = false;
     if(!studying){
         return;
+    }else{
+        tempEmotion("sad", "sad");
+        document.getElementById("text").innerHTML = "Come Back!!";
     }
+
     exitEarly();
-    //otherwise, call function to give 10s countdown
 }
 
 /*
  * start(minutes)
  * Begin study session of specified length
+ * time - minutes in length to run timer on
  */ 
-async function start(){ //NEED TO FIX TARGET TIME, ONLY UPDATE TARGET AT BEGINNING OF SESSION
-    if(!studying){
-        studying = true;
-        target = now + minutes*60*1000;
-    }else{
-        target = now + target; //add reamining difference to now
-    }
-    studying = true;
+async function start(time){ //NEED TO FIX TARGET TIME, ONLY UPDATE TARGET AT BEGINNING OF SESSION
+    document.getElementById("text").innerHTML = "Hi I'm Taumy!";
+    console.log("STUDYING");
     tempEmotion("eating", "happy");
     now = moment().toDate().getTime();
-    target = now + minutes*60*1000;
-    console.log("STUDYING");
-    console.log(now);
-    console.log(target);
-
+    target = now + time*60*1000;
+    console.log(remainder/60000);
     while((now < target) && phoneIn){
         now = moment().toDate().getTime();
-        diff = String((target - now)/60000);
-        var m = diff.substring(0,diff.indexOf('.'));
-        var s = String(60*parseInt(diff.substring(diff.indexOf('.') + 1))).substring(0,2);
+        remainder = String((target - now)/60000);
+        var m = remainder.substring(0,remainder.indexOf('.'));
+        var s = String(60*parseInt(remainder.substring(remainder.indexOf('.') + 1))).substring(0,2);
         document.getElementById("clock").innerHTML = m + ":" + s;
+        remainder = parseFloat(remainder);
         await sleep(0.25);
+        console.log(remainder);
     }
-    console.log("DONE");
-    studying = false;
+    if(phoneIn){ //if phone is in after exiting loop, then session completed successfully
+        console.log("DONE");
+        studying = false;
+    }
 }
 
 /*
@@ -73,12 +82,9 @@ async function exitEarly(){
     console.log("EXIT EARLY")
     setEmotion("sad");
     document.getElementById("text").innerHTML = "Come Back!!";
-    console.log("CHECK")
-    while(!phoneIn){
-        now = moment().toDate().getTime();
-        await sleep(1);
-    }
-    start();
+    document.getElementById("body").style.backgroundColor = "#6594b0";
+    document.getElementById("checkEnter").style.color = "#6594b0";
+    document.getElementById("checkExit").style.color = "#6594b0";
 }
 
 /*
@@ -129,7 +135,7 @@ function setEmotion(emotion){
  */
 async function tempEmotion(emotion1, emotion2){
     setEmotion(emotion1);
-    await sleep(4);
+    await sleep(2);
     setEmotion(emotion2)
 }
 
@@ -166,4 +172,25 @@ document.addEventListener("keydown", e => {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
+}
+
+/*--------------INDEX.HTML--------------*/
+user = 1
+
+function onload(){
+    updateUser(0);
+}
+
+function updateUser(change){
+    if(user == 1 && change < 0 || user == 4 && change > 0){
+        return;
+    }
+    document.getElementById("U" + String(user)).style.outline = "1px solid #7fbadc"
+    user += change;
+    document.getElementById("U" + String(user)).style.outline = "1px solid black"
+}
+
+function login(){
+    //Retrieve user info
+    window.location.href="timer.html"
 }
