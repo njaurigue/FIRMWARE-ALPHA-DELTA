@@ -197,7 +197,7 @@ function onload(type){
         updateUser(0);
     }else{
         adjustTime(0);
-        document.getElementById("date").innerHTML = moment().format("MM/DD/YY")
+        document.getElementById("date").innerHTML = moment().format("MM/DD/YY") + " - " + moment().format("h:mmA");
     }
 }
 
