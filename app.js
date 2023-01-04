@@ -27,6 +27,7 @@ function abort(){
  * return - false if not studying, true if studying
  */
 function checkEnter(){
+    updateDate();
     document.getElementById("body").style.backgroundColor = "#7fbadc";
     document.getElementById("checkEnter").style.color = "#7fbadc";
     document.getElementById("checkExit").style.color = "#7fbadc";
@@ -175,15 +176,9 @@ function setVisibility(){
     }
 }
 
-/*
- * Keyboard listener
- */
-document.addEventListener("keydown", e => {
-    console.log(e);
-    /*if(e.key == ' '){
-        timer();
-    }*/
-});
+function updateDate(){
+    document.getElementById("date").innerHTML = moment().format("MM/DD/YY") + " - " + moment().format("h:mmA");
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));

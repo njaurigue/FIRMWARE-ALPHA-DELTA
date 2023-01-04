@@ -60,6 +60,7 @@ q = []
 first = False
 while True:
     time.sleep(1)
+    driver.find_element(By.ID, 'updateDate').click()
     #Check for button input
     x = 0
     if GPIO.input(button1) == 0:
