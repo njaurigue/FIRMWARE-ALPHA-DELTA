@@ -65,14 +65,16 @@ while True:
     x = 0
     if GPIO.input(button1) == 0:
         x=1
+        driver.find_element(By.ID, 'B1').click()
     if GPIO.input(button2) == 0:
         x=2
-        driver.find_element(By.ID, 'up').click()
+        driver.find_element(By.ID, 'B2').click()
     if GPIO.input(button3) == 0:
         x=3
-        driver.find_element(By.ID, 'down').click()
+        driver.find_element(By.ID, 'B3').click()
     if GPIO.input(button4) == 0:
         x=4
+        driver.find_element(By.ID, 'B4').click()
     if x != 0:
         print(x)
 
