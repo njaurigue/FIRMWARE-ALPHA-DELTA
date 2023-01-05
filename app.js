@@ -4,15 +4,15 @@ var phoneIn = false; //true when phone is in, false when phone is out
 var studying = false; //true when session is ongoing, false otherwise
 var now = 0; //current time
 var remainder = 0; //remaining time left in session in mimutes
+var users;
 
 //DELIVERABLES
 var output = {
-    "userId":"0",
-    "duration":"0",
-    "success":true,
-    "startTime":"0",
-    "endTime":"0",
-    "date":"0"
+    "userId":"63b500dc770844c624be3e98",
+    "duration":60, //60
+    "success":true, //success of session
+    "start":"2023-01-04T03:00:00+00:00", //3:00
+    "end":"2023-01-04T04:00:00+00:00",   //4:03
 };
 
 //temp testing
@@ -31,6 +31,7 @@ function checkEnter(){
     document.getElementById("body").style.backgroundColor = "#7fbadc";
     document.getElementById("checkEnter").style.color = "#7fbadc";
     document.getElementById("checkExit").style.color = "#7fbadc";
+    document.getElementById("updateDate").style.color = "#7fbadc";
     phoneIn = true;
     if(!studying){
         studying = true;
@@ -65,7 +66,7 @@ function checkExit(){
  * Begin study session of specified length
  * time - minutes in length to run timer on
  */ 
-async function start(time){ //NEED TO FIX TARGET TIME, ONLY UPDATE TARGET AT BEGINNING OF SESSION
+async function start(time){
     document.getElementById("text").innerHTML = "Hi I'm Taumy!";
     console.log("STUDYING");
     tempEmotion("eating", "happy");
@@ -101,6 +102,7 @@ async function exitEarly(){
     document.getElementById("body").style.backgroundColor = "#6594b0";
     document.getElementById("checkEnter").style.color = "#6594b0";
     document.getElementById("checkExit").style.color = "#6594b0";
+    document.getElementById("updateDate").style.color = "#6594b0";
 }
 
 /*
@@ -190,10 +192,52 @@ var user = 1
 function onload(type){
     if(type == 'index'){
         updateUser(0);
+        //getUsers();
     }else{
         adjustTime(0);
         updateDate();
+        /*fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
+            method: 'POST', // or 'PUT'
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(output),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+            console.log('Success:', data);
+            })
+            .catch((error) => {
+            console.error('Error:', error);
+            });
+        */
     }
+}
+
+function getUsers(){
+    fetch('https://taumy-study-buddy.onrender.com/api/users/everyone')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.length)
+            console.log(data)
+            var i = 1;
+            while(i < data.length + 1 && i < 6){
+                document.getElementById("N" + String(i)).innerHTML = data[i-1].name;
+                document.getElementById("E" + String(i)).innerHTML = data[i-1].email;
+                document.getElementById("ID" + String(i)).innerHTML = data[i-1]._id;
+                i++;
+            }
+            while(i < 6){
+                document.getElementById("N" + String(i)).innerHTML = "-----";
+                document.getElementById("E" + String(i)).innerHTML = "-----";
+                document.getElementById("ID" + String(i)).innerHTML = "-----";
+                i++
+            }
+        });
+}
+
+function postSession(){
+    return;
 }
 
 function updateUser(change){
