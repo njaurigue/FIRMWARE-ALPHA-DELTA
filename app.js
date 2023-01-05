@@ -1,5 +1,5 @@
 var debug = false; //switch button visibility (for testing)
-var minutes = 25;  //length of session (default 25 minutes)
+var minutes = 1;  //length of session (default 25 minutes)
 var phoneIn = false; //true when phone is in, false when phone is out
 var studying = false; //true when session is ongoing, false otherwise
 var now = 0; //current time
@@ -7,13 +7,11 @@ var remainder = 0; //remaining time left in session in mimutes
 var users;
 
 //DELIVERABLES
-var output = {
-    "userId":"63b500dc770844c624be3e98",
-    "duration":60, //60
-    "success":true, //success of session
-    "start":"2023-01-04T03:00:00+00:00", //3:00
-    "end":"2023-01-04T04:00:00+00:00",   //4:03
-};
+var userId = ""; //DONE
+var duration = 0; //60
+var success = true;
+var start = ""; //3:00
+var end = ""; //4:03 //SUCCESS DONE
 
 //temp testing
 function abort(){
@@ -27,7 +25,6 @@ function abort(){
  * return - false if not studying, true if studying
  */
 function checkEnter(){
-    updateDate();
     document.getElementById("body").style.backgroundColor = "#7fbadc";
     document.getElementById("checkEnter").style.color = "#7fbadc";
     document.getElementById("checkExit").style.color = "#7fbadc";
@@ -35,12 +32,10 @@ function checkEnter(){
     phoneIn = true;
     if(!studying){
         studying = true;
-        output["duration"] = String(minutes) + "m";
-        output["startTime"] = String(moment().format('h:mm a')).replace(' ','');
-        output["date"] = String(moment().format("MM/DD/YY").replace(' ', '/'));
-        start(minutes);
+        start = String(moment().format());
+        startTimer(minutes);
     }else{
-        start(remainder);
+        startTimer(remainder);
     }
 }
 
@@ -51,22 +46,21 @@ function checkEnter(){
  */
 function checkExit(){
     phoneIn = false;
-    if(!studying){
+    if(!studying){ //start reset timer? (5 min)
         return;
     }else{
         tempEmotion("sad", "sad");
-        document.getElementById("text").innerHTML = "Come Back!!";
+        exitEarly();
     }
 
-    exitEarly();
 }
 
 /*
- * start(minutes)
+ * startTimer(minutes)
  * Begin study session of specified length
  * time - minutes in length to run timer on
  */ 
-async function start(time){
+async function startTimer(time){
     document.getElementById("text").innerHTML = "Hi I'm Taumy!";
     console.log("STUDYING");
     tempEmotion("eating", "happy");
@@ -85,9 +79,16 @@ async function start(time){
     }
     if(phoneIn){ //if phone is in after exiting loop, then session completed successfully
         console.log("DONE");
-        output["endTime"] = String(moment().format('h:mm a')).replace(' ', '');
-        console.log(output);
+        success = true;
+        duration = minutes;
+        end = String(moment().format());
+        console.log(end);
         studying = false;
+
+        console.log(success);
+        console.log(duration);
+        console.log(start);
+        console.log(end);
     }
 }
 
@@ -192,7 +193,7 @@ var user = 1
 function onload(type){
     if(type == 'index'){
         updateUser(0);
-        //getUsers();
+        getUsers();
     }else{
         adjustTime(0);
         updateDate();
@@ -229,8 +230,8 @@ function getUsers(){
             }
             while(i < 6){
                 document.getElementById("N" + String(i)).innerHTML = "-----";
-                document.getElementById("E" + String(i)).innerHTML = "-----";
-                document.getElementById("ID" + String(i)).innerHTML = "-----";
+                document.getElementById("E" + String(i)).innerHTML = "";
+                document.getElementById("ID" + String(i)).innerHTML = "";
                 i++
             }
         });
@@ -250,8 +251,7 @@ function updateUser(change){
 }
 
 function login(){
-    //Retrieve user info
-    fetch()
-    output['userId'] = 0; //GET USER ID THRU FETCH
+    userId = document.getElementById("ID" + String(user)).innerHTML;
+    console.log(userId);
     window.location.href="timer.html"
 }
