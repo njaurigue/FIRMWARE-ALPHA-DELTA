@@ -153,7 +153,7 @@ async function exitEarly(){
 function restart(){
     setEmotion("happy");
     adjustTime(0);
-    document.getElementById("text").innerHTML = "Welcome " + n + "!";
+    document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
     document.getElementById("body").style.backgroundColor = "#6594b0";
     document.getElementById("checkEnter").style.color = "#6594b0";
     document.getElementById("checkExit").style.color = "#6594b0";
@@ -248,8 +248,8 @@ function onload(type){
     if(type == 'index'){
         updateUser(0);
         getUsers();
-    }else{
-        document.getElementById("text").innerHTML = "Welcome " + n + "!";
+    }else{ 
+        document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
         adjustTime(0);
         updateDate();
         /*fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
@@ -302,7 +302,7 @@ function updateUser(change){
 
 function login(){
     userId = document.getElementById("ID" + String(user)).innerHTML;
-    n = document.getElementById("N" + String(user)).innerHTML;
+    localStorage.n = document.getElementById("N" + String(user)).innerHTML;
     console.log(n);
     console.log(userId);
     window.location.href="timer.html"

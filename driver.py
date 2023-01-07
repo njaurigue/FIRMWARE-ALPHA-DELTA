@@ -6,6 +6,9 @@ from selenium.webdriver.chrome.options import Options
 import RPi.GPIO as GPIO
 import time
 
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+
 #GPIO SETUP
 GPIO.setmode(GPIO.BOARD)
 
@@ -30,10 +33,12 @@ time.sleep(2)
 options = Options()
 options.add_experimental_option("excludeSwitches", ['enable-automation'])
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+driver.implicitly_wait(5)
 driver.get('https://njaurigue.github.io/FIRMWARE-ALPHA-DELTA/')
 driver.fullscreen_window()
-options.binary_location
 
+actions = ActionChains(driver)
+actions.send_keys(Keys.F11).perform()
 
 # readSonar()
 # Retrieve distance read from Sonar sensor
@@ -57,6 +62,26 @@ def readSonar():
         return distance
     except:
         print("Sensor Read Failed")
+
+loggedIn = False
+while not loggedIn:
+    time.sleep(1)
+    x = 0
+    if GPIO.input(button1) == 0:
+        x=1
+        driver.find_element(By.ID, 'B1').click()
+    if GPIO.input(button2) == 0:
+        x=2
+        driver.find_element(By.ID, 'B2').click()
+    if GPIO.input(button3) == 0:
+        x=3
+        driver.find_element(By.ID, 'B3').click()
+    if GPIO.input(button4) == 0:
+        x=4
+        driver.find_element(By.ID, 'B4').click()
+        loggedIn = True
+    if x != 0:
+        print(x)
 
 q = []
 first = False
