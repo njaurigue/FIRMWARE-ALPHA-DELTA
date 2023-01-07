@@ -87,10 +87,10 @@ async function startTimer(time){
         remainder = parseFloat(remainder);
         await sleep(0.25);
     }
-    document.getElementById("clock").innerHTML = "0:00";
     
     //SUCCESSFUL EXIT
     if(phoneIn){ 
+        document.getElementById("clock").innerHTML = "0:00";
         console.log("SUCCESSFUL EXIT");
         success = true;
         end = fixMoment(String(moment().format()));
@@ -128,10 +128,15 @@ async function exitEarly(){
         r = parseFloat(r);
         await sleep(0.25);
     }
-    document.getElementById("clock").innerHTML = "0:00";
 
     //FAILED EXIT
     if(!phoneIn){
+        document.getElementById("clock").innerHTML = "0:00";
+        document.getElementById("text").innerHTML = "Click below to reset, you can do it!";
+        document.getElementById("body").style.backgroundColor = "#FF7276";
+        document.getElementById("checkEnter").style.color = "#FF7276";
+        document.getElementById("checkExit").style.color = "#FF7276";
+        document.getElementById("updateDate").style.color = "#FF7276";
         console.log("FAILED EXIT");
         success = false;
         duration = Math.round(parseFloat(moment().subtract(startMoment) / 60000));
@@ -143,21 +148,16 @@ async function exitEarly(){
         console.log("DURATION: " + duration);
         console.log("SUCCESS: " + success);
     }
-    document.getElementById("text").innerHTML = "Click below to reset, you can do it!";
-    document.getElementById("body").style.backgroundColor = "#FF7276";
-    document.getElementById("checkEnter").style.color = "#FF7276";
-    document.getElementById("checkExit").style.color = "#FF7276";
-    document.getElementById("updateDate").style.color = "#FF7276";
 }
 
 function restart(){
     setEmotion("happy");
     adjustTime(0);
     document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
-    document.getElementById("body").style.backgroundColor = "#6594b0";
-    document.getElementById("checkEnter").style.color = "#6594b0";
-    document.getElementById("checkExit").style.color = "#6594b0";
-    document.getElementById("updateDate").style.color = "#6594b0";
+    document.getElementById("body").style.backgroundColor = "#7fbadc";
+    document.getElementById("checkEnter").style.color = "#7fbadc";
+    document.getElementById("checkExit").style.color = "#7fbadc";
+    document.getElementById("updateDate").style.color = "#7fbadc";
 }
 
 /*
