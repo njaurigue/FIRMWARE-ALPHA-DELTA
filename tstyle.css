@@ -47,8 +47,8 @@ h1{
 
 .checks button{
     margin-top: 1vh;
-    /*color: #7fbadc;*/
-    color: black;
+    color: #7fbadc;
+    /*color: black;*/
 }
 
 #timerButton{

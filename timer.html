@@ -14,6 +14,7 @@
             <h4 id="date">xx/xx/xx</h4>
             <button id="ABORT" onclick="abort()"><img id="face" src="GIFS/emotionHappy.gif"></button>
             <button id="timerButton" onclick="setVisibility()"><h1 id="clock">0:00</h1></button>
+            <h2 id="session">Sessions: 0/1</h2>
             <div class="checks">
                 <button class="button" id="checkExit" onclick="checkExit()">checkExit</button>
                 <button class="button" id="checkEnter" onclick="checkEnter()">checkEnter</button>
@@ -21,9 +22,9 @@
             </div>
             <div class="buttons">
                 <button class="button" id="B1" onclick="restart()">RESTART</button>
-                <button class="button" id="B2" onclick="adjustTime(5)">UP</button>
-                <button class="button" id="B3" onclick="adjustTime(-5)">DOWN</button>
-                <button class="button" id="B4">SWITCH</button>
+                <button class="button" id="B2" onclick="adjust(1)">UP</button>
+                <button class="button" id="B3" onclick="adjust(-1)">DOWN</button>
+                <button class="button" id="B4" onclick="swap()">SWITCH</button>
             </div>
         </div>
     </body>

@@ -5,6 +5,8 @@ var studying = false; //true when session is ongoing, false otherwise
 var now = 0; //current time
 var remainder = 0; //remaining time left in session in mimutes
 var users;
+var session = 0;
+var sessionGoal = 1;
 
 //DELIVERABLES
 var userId = ""; //DONE
@@ -34,15 +36,21 @@ function abort(){
  * return - false if not studying, true if studying
  */
 function checkEnter(){
+    document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
     document.getElementById("body").style.backgroundColor = "#7fbadc";
     document.getElementById("checkEnter").style.color = "#7fbadc";
     document.getElementById("checkExit").style.color = "#7fbadc";
     document.getElementById("updateDate").style.color = "#7fbadc";
     phoneIn = true;
     if(!studying){
+        restart();
         studying = true;
         startMoment = moment();
         start = fixMoment(String(startMoment.format()));
+        if(session >= sessionGoal){
+            session = 0;
+            document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
+        }
         startTimer(minutes);
     }else{
         startTimer(remainder);
@@ -83,8 +91,14 @@ async function startTimer(time){
         remainder = String((target - now)/60000);
         var m = remainder.substring(0,remainder.indexOf('.'));
         var s = String(60*parseInt(remainder.substring(remainder.indexOf('.') + 1))).substring(0,2);
-        document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
         remainder = parseFloat(remainder);
+        if(remainder > 0.1667){
+            document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
+        }else if(remainder < 0.01667){
+            document.getElementById("clock").innerHTML = ("0:00." + s.substring(0,1));
+        }else{
+            document.getElementById("clock").innerHTML = ("0:0" + s.substring(0,1) + "." + s.substring(1));
+        }
         await sleep(0.25);
         console.log(m + ":" + s + "----r: " + remainder);
     }
@@ -93,15 +107,18 @@ async function startTimer(time){
     if(phoneIn){ 
         document.getElementById("clock").innerHTML = "0:00";
         console.log("SUCCESSFUL EXIT");
-        success = true;
-        end = fixMoment(String(moment().format()));
         duration = minutes;
-        console.log(end);
+        end = fixMoment(String(moment().format()));
+        success = true;
         studying = false;
+        session++;
+        swap();
+        document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
 
-        console.log(start);
-        console.log(duration);
-        console.log(success);
+        console.log("START: " + start);
+        console.log("END:   " + end);
+        console.log("DURATION: " + duration);
+        console.log("SUCCESS: " + success);
     }
 }
 
@@ -113,51 +130,47 @@ async function exitEarly(){
     console.log("EXIT EARLY")
     setEmotion("sad");
     document.getElementById("text").innerHTML = "Hurry, Come Back!!";
-    document.getElementById("body").style.backgroundColor = "#6594b0";
-    document.getElementById("checkEnter").style.color = "#6594b0";
-    document.getElementById("checkExit").style.color = "#6594b0";
-    document.getElementById("updateDate").style.color = "#6594b0";
+    document.getElementById("body").style.backgroundColor = "#FF7276";
+    document.getElementById("checkEnter").style.color = "#FF7276";
+    document.getElementById("checkExit").style.color = "#FF7276";
+    document.getElementById("updateDate").style.color = "#FF7276";
     curr = moment().toDate().getTime();
     var t = curr + 10*1000;
     var r = String((t - curr)/60000);
     while(!phoneIn && r > 0){
+        document.getElementById("clock").innerHTML = "0:10.00";
         curr = moment().toDate().getTime();
         r = String((t - curr)/60000);
         var m = r.substring(0,r.indexOf('.'));
         var s = String(60*parseInt(r.substring(r.indexOf('.') + 1))).substring(0,2);
-        if(parseInt(r) > 0.1667){
-            document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
-        }else if(parseInt(r) < 0.01667){
-            
-        }
-        else/* if(parseInt(r) > 0.01667)*/{
-            document.getElementById("clock").innerHTML = ("0:0" + s.substring(0,1) + "." + s.substring(1));
-        /*}else{
-            document.getElementById("clock").innerHTML = ("0:00." + s.substring(0,1));
-            */
-        }
-
         r = parseFloat(r);
+        if(r > 0.1667){
+            document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
+        }else if(r < 0.01667){
+            document.getElementById("clock").innerHTML = ("0:00." + s.substring(0,1));
+        }else{
+            document.getElementById("clock").innerHTML = ("0:0" + s.substring(0,1) + "." + s.substring(1));
+        }
         await sleep(0.25);
         console.log(m + ":" + s + "----r: " + r);
     }
 
     //FAILED EXIT
     if(!phoneIn){
-        document.getElementById("clock").innerHTML = "0:00";
+        document.getElementById("clock").innerHTML = "0:00.00";
         document.getElementById("text").innerHTML = "Click below to reset, you can do it!";
-        document.getElementById("body").style.backgroundColor = "#FF7276";
-        document.getElementById("checkEnter").style.color = "#FF7276";
-        document.getElementById("checkExit").style.color = "#FF7276";
-        document.getElementById("updateDate").style.color = "#FF7276";
+        document.getElementById("body").style.backgroundColor = "#6594b0";
+        document.getElementById("checkEnter").style.color = "#6594b0";
+        document.getElementById("checkExit").style.color = "#6594b0";
+        document.getElementById("updateDate").style.color = "#6594b0";
         console.log("FAILED EXIT");
-        success = false;
         duration = Math.round(parseFloat(moment().subtract(startMoment) / 60000));
         end = fixMoment(String(moment().format()));
-        console.log("END:   " + end);
+        success = false;
         studying = false;
 
         console.log("START: " + start);
+        console.log("END:   " + end);
         console.log("DURATION: " + duration);
         console.log("SUCCESS: " + success);
     }
@@ -173,18 +186,64 @@ function restart(){
     document.getElementById("updateDate").style.color = "#7fbadc";
 }
 
+var editTimer = true
+function swap(){
+    if(studying){
+        return;
+    }
+    if(editTimer){
+        editTimer = false;
+        document.getElementById("session").innerHTML = "->" + "Sessions: " + session + "/" + sessionGoal + "<-";
+        document.getElementById("clock").innerHTML = minutes + ":00";
+    }else{
+        editTimer = true;
+        document.getElementById("clock").innerHTML = "->" + minutes + ":00" + "<-";
+        document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
+    }
+}
+
+function adjust(i){
+    console.log(editTimer);
+    if(editTimer){
+        adjustTime(i);
+        return;
+    }
+    adjustSession(i);
+}
+
 /*
  * adjustTime(min):
  * Change global minutes variable by specified time
  */ 
 function adjustTime(min){
-    if(minutes > 10){
+    if(minutes > 1){
         minutes += min;
     }else if(min > 0){
         minutes += min;
     }
-    document.getElementById("clock").innerHTML = minutes + ":00";
+    var edit = "";
+    var edit2 = "";
+    if(editTimer){
+        edit = "->";
+        edit2 = "<-";
+    }
+    document.getElementById("clock").innerHTML = edit + minutes + ":00" + edit2;
     console.log(minutes)
+}
+
+function adjustSession(s){
+    if(sessionGoal > 1 && s < 0){
+        sessionGoal--;
+    }else if(sessionGoal < 5 && s > 0){
+        sessionGoal++;
+    }
+    var edit = "";
+    var edit2 = "";
+    if(!editTimer){
+        edit = "->";
+        edit2 = "<-";
+    }
+    document.getElementById("session").innerHTML = edit + "Sessions: " + session + "/" + sessionGoal + edit2;
 }
 
 /*
@@ -264,6 +323,7 @@ function onload(type){
     }else{ 
         document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
         adjustTime(0);
+        adjustSession(0);
         updateDate();
         /*fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
             method: 'POST', // or 'PUT'
