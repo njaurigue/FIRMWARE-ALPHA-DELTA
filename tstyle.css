@@ -40,16 +40,15 @@ h1{
 }
 
 .button{
-    font-size: 3vh;
     width: 25vw;
     text-align: center;
     color: black;
 }
 
 .checks button{
-    color: #7fbadc;
-    height: 1vh;
-    font-size: 1vh;
+    margin-top: 1vh;
+    /*color: #7fbadc;*/
+    color: black;
 }
 
 #timerButton{

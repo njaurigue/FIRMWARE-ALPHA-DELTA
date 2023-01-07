@@ -125,10 +125,16 @@ async function exitEarly(){
         r = String((t - curr)/60000);
         var m = r.substring(0,r.indexOf('.'));
         var s = String(60*parseInt(r.substring(r.indexOf('.') + 1))).substring(0,2);
-        if(parseInt(s) > 0.1667){
+        if(parseInt(r) > 0.1667){
             document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
-        }else{
-            document.getElementById("clock").innerHTML = ("0:0" + s);
+        }else if(parseInt(r) < 0.01667){
+            
+        }
+        else/* if(parseInt(r) > 0.01667)*/{
+            document.getElementById("clock").innerHTML = ("0:0" + s.substring(0,1) + "." + s.substring(1));
+        /*}else{
+            document.getElementById("clock").innerHTML = ("0:00." + s.substring(0,1));
+            */
         }
 
         r = parseFloat(r);
