@@ -48,6 +48,8 @@ h1{
 
 .checks button{
     color: #7fbadc;
+    height: 1vh;
+    font-size: 1vh;
 }
 
 #timerButton{

@@ -86,6 +86,7 @@ async function startTimer(time){
         document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
         remainder = parseFloat(remainder);
         await sleep(0.25);
+        console.log(m + ":" + s + "----r: " + remainder);
     }
     
     //SUCCESSFUL EXIT
@@ -124,9 +125,15 @@ async function exitEarly(){
         r = String((t - curr)/60000);
         var m = r.substring(0,r.indexOf('.'));
         var s = String(60*parseInt(r.substring(r.indexOf('.') + 1))).substring(0,2);
-        document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
+        if(parseInt(s) > 0.1667){
+            document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
+        }else{
+            document.getElementById("clock").innerHTML = ("0:0" + s);
+        }
+
         r = parseFloat(r);
         await sleep(0.25);
+        console.log(m + ":" + s + "----r: " + r);
     }
 
     //FAILED EXIT
