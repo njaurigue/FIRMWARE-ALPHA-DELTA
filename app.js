@@ -73,7 +73,6 @@ function checkExit(){
  * time - minutes in length to run timer on
  */ 
 async function startTimer(time){
-    document.getElementById("text").innerHTML = "Hi I'm Taumy!";
     console.log("STUDYING");
     tempEmotion("eating", "happy");
     now = moment().toDate().getTime();
@@ -87,7 +86,6 @@ async function startTimer(time){
         document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
         remainder = parseFloat(remainder);
         await sleep(0.25);
-        console.log(remainder);
     }
     document.getElementById("clock").innerHTML = "0:00";
     
@@ -113,7 +111,7 @@ async function startTimer(time){
 async function exitEarly(){
     console.log("EXIT EARLY")
     setEmotion("sad");
-    document.getElementById("text").innerHTML = "Come Back!!";
+    document.getElementById("text").innerHTML = "Hurry, Come Back!!";
     document.getElementById("body").style.backgroundColor = "#6594b0";
     document.getElementById("checkEnter").style.color = "#6594b0";
     document.getElementById("checkExit").style.color = "#6594b0";
@@ -129,7 +127,6 @@ async function exitEarly(){
         document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
         r = parseFloat(r);
         await sleep(0.25);
-        console.log(r);
     }
     document.getElementById("clock").innerHTML = "0:00";
 
@@ -146,6 +143,21 @@ async function exitEarly(){
         console.log("DURATION: " + duration);
         console.log("SUCCESS: " + success);
     }
+    document.getElementById("text").innerHTML = "Click below to reset, you can do it!";
+    document.getElementById("body").style.backgroundColor = "#FF7276";
+    document.getElementById("checkEnter").style.color = "#FF7276";
+    document.getElementById("checkExit").style.color = "#FF7276";
+    document.getElementById("updateDate").style.color = "#FF7276";
+}
+
+function restart(){
+    setEmotion("happy");
+    adjustTime(0);
+    document.getElementById("text").innerHTML = "Welcome " + n + "!";
+    document.getElementById("body").style.backgroundColor = "#6594b0";
+    document.getElementById("checkEnter").style.color = "#6594b0";
+    document.getElementById("checkExit").style.color = "#6594b0";
+    document.getElementById("updateDate").style.color = "#6594b0";
 }
 
 /*
