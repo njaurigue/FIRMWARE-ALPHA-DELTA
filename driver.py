@@ -32,6 +32,8 @@ options.add_experimental_option("excludeSwitches", ['enable-automation'])
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 driver.get('https://njaurigue.github.io/FIRMWARE-ALPHA-DELTA/')
 driver.fullscreen_window()
+options.binary_location
+
 
 # readSonar()
 # Retrieve distance read from Sonar sensor

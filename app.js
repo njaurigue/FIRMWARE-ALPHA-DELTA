@@ -13,11 +13,20 @@ var success = true;
 var start = ""; //3:00
 var end = ""; //4:03 //SUCCESS DONE
 
-//temp testing
+var n;
+var startMoment;
+
+/*
+ * abort()
+ * Exit webdriver by clicking on Taumy's face manually (for testing)
+ * return - none
+ */
 function abort(){
     console.log("ABORTING");
     document.getElementById("text").innerHTML = "ABORTING";
 }
+
+/*--------------PHONE INPUTS--------------*/
 
 /*
  * checkEnter()
@@ -32,7 +41,8 @@ function checkEnter(){
     phoneIn = true;
     if(!studying){
         studying = true;
-        start = String(moment().format());
+        startMoment = moment();
+        start = fixMoment(String(startMoment.format()));
         startTimer(minutes);
     }else{
         startTimer(remainder);
@@ -55,6 +65,8 @@ function checkExit(){
 
 }
 
+/*--------------TIMERS--------------*/
+
 /*
  * startTimer(minutes)
  * Begin study session of specified length
@@ -72,23 +84,25 @@ async function startTimer(time){
         remainder = String((target - now)/60000);
         var m = remainder.substring(0,remainder.indexOf('.'));
         var s = String(60*parseInt(remainder.substring(remainder.indexOf('.') + 1))).substring(0,2);
-        document.getElementById("clock").innerHTML = m + ":" + s;
+        document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
         remainder = parseFloat(remainder);
         await sleep(0.25);
         console.log(remainder);
     }
-    if(phoneIn){ //if phone is in after exiting loop, then session completed successfully
-        console.log("DONE");
+    document.getElementById("clock").innerHTML = "0:00";
+    
+    //SUCCESSFUL EXIT
+    if(phoneIn){ 
+        console.log("SUCCESSFUL EXIT");
         success = true;
+        end = fixMoment(String(moment().format()));
         duration = minutes;
-        end = String(moment().format());
         console.log(end);
         studying = false;
 
-        console.log(success);
-        console.log(duration);
         console.log(start);
-        console.log(end);
+        console.log(duration);
+        console.log(success);
     }
 }
 
@@ -104,6 +118,34 @@ async function exitEarly(){
     document.getElementById("checkEnter").style.color = "#6594b0";
     document.getElementById("checkExit").style.color = "#6594b0";
     document.getElementById("updateDate").style.color = "#6594b0";
+    curr = moment().toDate().getTime();
+    var t = curr + 10*1000;
+    var r = String((t - curr)/60000);
+    while(!phoneIn && r > 0){
+        curr = moment().toDate().getTime();
+        r = String((t - curr)/60000);
+        var m = r.substring(0,r.indexOf('.'));
+        var s = String(60*parseInt(r.substring(r.indexOf('.') + 1))).substring(0,2);
+        document.getElementById("clock").innerHTML = (m + ":" + s).replace("-", "");
+        r = parseFloat(r);
+        await sleep(0.25);
+        console.log(r);
+    }
+    document.getElementById("clock").innerHTML = "0:00";
+
+    //FAILED EXIT
+    if(!phoneIn){
+        console.log("FAILED EXIT");
+        success = false;
+        duration = Math.round(parseFloat(moment().subtract(startMoment) / 60000));
+        end = fixMoment(String(moment().format()));
+        console.log("END:   " + end);
+        studying = false;
+
+        console.log("START: " + start);
+        console.log("DURATION: " + duration);
+        console.log("SUCCESS: " + success);
+    }
 }
 
 /*
@@ -195,6 +237,7 @@ function onload(type){
         updateUser(0);
         getUsers();
     }else{
+        document.getElementById("text").innerHTML = "Welcome " + n + "!";
         adjustTime(0);
         updateDate();
         /*fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
@@ -216,6 +259,7 @@ function onload(type){
 }
 
 function getUsers(){
+    console.log("FETCHING");
     fetch('https://taumy-study-buddy.onrender.com/api/users/everyone')
         .then(response => response.json())
         .then(data => {
@@ -227,12 +271,6 @@ function getUsers(){
                 document.getElementById("E" + String(i)).innerHTML = data[i-1].email;
                 document.getElementById("ID" + String(i)).innerHTML = data[i-1]._id;
                 i++;
-            }
-            while(i < 6){
-                document.getElementById("N" + String(i)).innerHTML = "-----";
-                document.getElementById("E" + String(i)).innerHTML = "";
-                document.getElementById("ID" + String(i)).innerHTML = "";
-                i++
             }
         });
 }
@@ -252,6 +290,13 @@ function updateUser(change){
 
 function login(){
     userId = document.getElementById("ID" + String(user)).innerHTML;
+    n = document.getElementById("N" + String(user)).innerHTML;
+    console.log(n);
     console.log(userId);
     window.location.href="timer.html"
+}
+
+function fixMoment(s){
+    var i = s.lastIndexOf('-');
+    return s.substring(0, i) + "+" + s.substring(i + 1);
 }
