@@ -4,17 +4,23 @@
     <head>
         <meta charset="utf-8"/>
         <title>Taumy UI</title>
-        <link href="tstyle.css" rel="stylesheet" type="text/css"/>
+        <link href="tstyle2.css" rel="stylesheet" type="text/css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
         <script src="app.js"></script>
     </head>
     <body id="body" onload="onload('timer')">
         <div class="main">
-            <h1 id="text">Welcome!</h1>
-            <h4 id="date">xx/xx/xx</h4>
-            <button id="ABORT" onclick="abort()"><img id="face" src="GIFS/emotionHappy.gif"></button>
-            <button id="timerButton" onclick="setVisibility()"><h1 id="clock">0:00</h1></button>
-            <h2 id="session">Sessions: 0/1</h2>
+            <div class="header-message">
+                <h1 id="text">Welcome!</h1>
+                <h4 id="date">xx/xx/xx</h4>
+            </div>
+            <div>
+                <button id="ABORT" onclick="abort()"><img id="face" src="GIFS/emotionHappy.gif"></button>
+            </div>
+            <div>
+                <button id="timerButton" onclick="setVisibility()"><h1 id="clock">0:00</h1></button>
+                <h2 id="session">Sessions: 0/1</h2>
+            </div>
             <div class="checks">
                 <button class="button" id="checkExit" onclick="checkExit()">checkExit</button>
                 <button class="button" id="checkEnter" onclick="checkEnter()">checkEnter</button>
