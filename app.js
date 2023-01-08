@@ -168,6 +168,7 @@ async function exitEarly(){
         await sleep(0.25);
         console.log(m + ":" + s + "----r: " + r);
     }
+    failing = false;
 
     //FAILED EXIT
     if(!phoneIn){
