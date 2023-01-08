@@ -378,7 +378,27 @@ function getUsers(){
 }
 
 function postSession(){
-    return;
+    const output = {
+        userId:userId,
+        duration:duration,
+        success:success,
+        start:start,
+        end:end
+    }
+    fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
+            method: 'POST', // or 'PUT'
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(output),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+            console.log('Success:', data);
+            })
+            .catch((error) => {
+            console.error('Error:', error);
+            });
 }
 
 function updateUser(change){
