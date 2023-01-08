@@ -61,7 +61,7 @@ function checkExit(){
     }
     phoneIn = false;
     if(!studying){ //start reset timer? (5 min)
-        document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
+        setPhrase("welcome");
         return;
     }else{
         tempEmotion("sad", "sad");
@@ -80,7 +80,7 @@ function checkExit(){
 async function startTimer(time){
     console.log("STUDYING");
     tempEmotion("eating", "happy");
-    document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
+    setPhrase("starting");
     now = moment().toDate().getTime();
     target = now + time*60*1000;
     console.log(remainder/60000);
@@ -112,7 +112,7 @@ async function startTimer(time){
         session++;
         swap();
         document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
-        document.getElementById("text").innerHTML = "Great Job! Remove and re-enter your phone to go again!";
+        setPhrase("success");
         
         await postSession();
         for(var i = 0; i < 3; i++){
@@ -143,7 +143,7 @@ async function exitEarly(){
     }
     failing = true;
     setEmotion("sad");
-    document.getElementById("text").innerHTML = "Hurry, Come Back!!";
+    setPhrase("failing");
     document.getElementById("body").style.backgroundColor = "#FF7276";
     document.getElementById("checkEnter").style.color = "#FF7276";
     document.getElementById("checkExit").style.color = "#FF7276";
@@ -173,7 +173,7 @@ async function exitEarly(){
     //FAILED EXIT
     if(!phoneIn){
         document.getElementById("clock").innerHTML = "0:00.00";
-        document.getElementById("text").innerHTML = "Click below to reset, you can do it!";
+        setPhrase("failed");
         document.getElementById("body").style.backgroundColor = "#6594b0";
         document.getElementById("checkEnter").style.color = "#6594b0";
         document.getElementById("checkExit").style.color = "#6594b0";
@@ -194,9 +194,12 @@ async function exitEarly(){
 }
 
 function restart(){
+    if(phoneIn){
+        return;
+    }
     setEmotion("happy");
     adjustTime(0);
-    document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
+    setPhrase("welcome");
     document.getElementById("body").style.backgroundColor = "#7fbadc";
     document.getElementById("checkEnter").style.color = "#7fbadc";
     document.getElementById("checkExit").style.color = "#7fbadc";
@@ -338,7 +341,7 @@ function onload(type){
         updateUser(0);
         getUsers();
     }else{
-        document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
+        setPhrase("welcome");
         adjustTime(0);
         adjustSession(0);
         updateDate();
@@ -371,7 +374,7 @@ async function postSession(){
         end:nd
     }
     const post = await fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
-        method: 'POST', // or 'PUT'
+        method: 'POST',
         headers: {
         'Content-Type': 'application/json',
         },
@@ -401,4 +404,68 @@ function fixMoment(s){
     var i = s.lastIndexOf('-');
     var eight = s.lastIndexOf('8');
     return s.substring(0, i) + "+" + s.substring(i + 1, eight) + "0" + s.substring(eight + 1);
+}
+
+function setPhrase(state){
+    var n = localStorage.n
+    var out = "";
+    switch(state){
+        case "welcome":
+            var welcome = [
+                "Welcome, " + n + "!",
+                "Greetings, " + n + "!",
+                "Good to see you, " + n + "!",
+                "Hey there, " + n + "!",
+                "Bonjour, " + n + "!",
+                "Hola, " + n + "!",
+                "Howdy, " + n +"!" ,
+                "How's it going, " + n + "!"
+            ];
+            out = welcome[Math.floor(Math.random() * 8)];
+            break;
+        case "starting":
+            var starting = [
+                "Let's get to work, " + n + "!",
+                "Let's begin, " + n + "!",
+                "Here we go, " + n + "!",
+                "Let's do it, " + n + "!",
+                "Happy studying, " + n + "!"
+            ];
+            out = starting[Math.floor(Math.random() * 5)];
+            break;
+        case "success":
+            var success = [
+                "Great Job!" + n + "! Remove your phone to reset!",
+                "Great job " + n + "! Remove your phone to reset!",
+                "Terrific job " + n + "! Remove your phone to reset!",
+                "Wonderful job " + n + "! Remove your phone to reset!",
+                "Outstanding job " + n + "! Remove your phone to reset!",
+                "Great work " + n + "! Remove your phone to reset!",
+                "Excellent work " + n + "! Remove your phone to reset!",
+                "Well done " + n + "! Remove your phone to reset!",
+                "Sensational  " + n + "! Remove your phone to reset!"
+            ];
+            out = success[Math.floor(Math.random() * 9)];
+            break;
+        case "failing":
+            var failing = [
+                "Hey, come back!",
+                "Hey, give me that!",
+                "Hurry, come back!",
+                "Come on, stay focused!"
+            ];
+            out = failing[Math.floor(Math.random() * 4)];
+            break;
+        case "failed":
+        default:
+            var failed = [
+                "Click below to reset, you can do it!",
+                "Click below to reset, don't give up!",
+                "Click below to reset, you can do this!",
+                "Click below to reset, you got this!",
+                "Click below to reset, never stop trying!"
+            ];
+            out = failed[Math.floor(Math.random() * 5)];
+    }
+    document.getElementById("text").innerHTML = out;
 }
