@@ -115,6 +115,8 @@ async function startTimer(time){
         swap();
         document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
         document.getElementById("text").innerHTML = "Great Job! Remove and re-enter your phone to go again!";
+        
+        postSession();
         for(var i = 0; i < 3; i++){
             confetti({
                 spread: 100,
@@ -130,12 +132,17 @@ async function startTimer(time){
     }
 }
 
+var failing = false;
 /*
  * exitEarly()
  * Pauses session when phone is removed, notifying user and updating UI accordingly.
  */
 async function exitEarly(){
     console.log("EXIT EARLY")
+    if(failing){
+        return;
+    }
+    failing = true;
     setEmotion("sad");
     document.getElementById("text").innerHTML = "Hurry, Come Back!!";
     document.getElementById("body").style.backgroundColor = "#FF7276";
@@ -177,10 +184,12 @@ async function exitEarly(){
         success = false;
         studying = false;
 
+        postSession();
         console.log("START: " + start);
         console.log("END:   " + end);
         console.log("DURATION: " + duration);
         console.log("SUCCESS: " + success);
+        console.log("USERID: " + userId);
     }
 }
 
