@@ -56,6 +56,9 @@ function checkEnter(){
  * return false
  */
 function checkExit(){
+    if(!phoneIn){
+        return;
+    }
     phoneIn = false;
     if(!studying){ //start reset timer? (5 min)
         document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
