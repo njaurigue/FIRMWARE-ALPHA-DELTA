@@ -119,7 +119,5 @@ while True:
         driver.find_element(By.ID, 'checkEnter').click() #PHONE ENTERS
     if(old - q[-1] < -10):
         driver.find_element(By.ID, 'checkExit').click()  #PHONE EXITS
-    if(driver.find_element(By.ID, 'text').get_attribute('innerHTML') == "ABORTING"):
-        break
 
 GPIO.cleanup()

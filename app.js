@@ -18,16 +18,6 @@ var end = ""; //4:03 //SUCCESS DONE
 var n;
 var startMoment;
 
-/*
- * abort()
- * Exit webdriver by clicking on Taumy's face manually (for testing)
- * return - none
- */
-function abort(){
-    console.log("ABORTING");
-    document.getElementById("text").innerHTML = "ABORTING";
-}
-
 /*--------------PHONE INPUTS--------------*/
 
 /*
@@ -36,6 +26,9 @@ function abort(){
  * return - false if not studying, true if studying
  */
 function checkEnter(){
+    if(phoneIn){
+        return;
+    }
     document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
     document.getElementById("body").style.backgroundColor = "#7fbadc";
     document.getElementById("checkEnter").style.color = "#7fbadc";
@@ -120,6 +113,7 @@ async function startTimer(time){
         for(var i = 0; i < 3; i++){
             confetti({
                 spread: 100,
+                particleCount: 10
             });
             await sleep(0.5);
         }
