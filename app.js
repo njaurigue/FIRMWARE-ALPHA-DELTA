@@ -114,11 +114,19 @@ async function startTimer(time){
         session++;
         swap();
         document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
+        document.getElementById("text").innerHTML = "Great Job! Remove and re-enter your phone to go again!";
+        for(var i = 0; i < 3; i++){
+            confetti({
+                spread: 100,
+            });
+            await sleep(0.5);
+        }
 
         console.log("START: " + start);
         console.log("END:   " + end);
         console.log("DURATION: " + duration);
         console.log("SUCCESS: " + success);
+        console.log("USERID: " + userId);
     }
 }
 
@@ -320,7 +328,7 @@ function onload(type){
     if(type == 'index'){
         updateUser(0);
         getUsers();
-    }else{ 
+    }else{
         document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
         adjustTime(0);
         adjustSession(0);
