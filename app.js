@@ -9,11 +9,11 @@ var session = 0;
 var sessionGoal = 1;
 
 //DELIVERABLES
-var userId = ""; //DONE
-var duration = 0; //60
-var success = true;
-var start = ""; //3:00
-var end = ""; //4:03 //SUCCESS DONE
+var id = ""; //DONE
+var dur = 0; //60
+var scs = true;
+var strt = ""; //3:00
+var nd = ""; //4:03 //SUCCESS DONE
 
 var n;
 var startMoment;
@@ -39,7 +39,7 @@ function checkEnter(){
         restart();
         studying = true;
         startMoment = moment();
-        start = fixMoment(String(startMoment.format()));
+        strt = fixMoment(String(startMoment.format()));
         if(session >= sessionGoal){
             session = 0;
             document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
@@ -105,16 +105,16 @@ async function startTimer(time){
     if(phoneIn){ 
         document.getElementById("clock").innerHTML = "0:00";
         console.log("SUCCESSFUL EXIT");
-        duration = minutes;
-        end = fixMoment(String(moment().format()));
-        success = true;
+        dur = minutes;
+        nd = fixMoment(String(moment().format()));
+        scs = true;
         studying = false;
         session++;
         swap();
         document.getElementById("session").innerHTML = "Sessions: " + session + "/" + sessionGoal;
         document.getElementById("text").innerHTML = "Great Job! Remove and re-enter your phone to go again!";
         
-        postSession();
+        await postSession();
         for(var i = 0; i < 3; i++){
             confetti({
                 spread: 100,
@@ -123,11 +123,11 @@ async function startTimer(time){
             await sleep(0.75);
         }
 
-        console.log("START: " + start);
-        console.log("END:   " + end);
-        console.log("DURATION: " + duration);
-        console.log("SUCCESS: " + success);
-        console.log("USERID: " + userId);
+        console.log("START: " + strt);
+        console.log("END:   " + nd);
+        console.log("DURATION: " + dur);
+        console.log("SUCCESS: " + scs);
+        console.log("USERID: " + localStorage.id);
     }
 }
 
@@ -179,17 +179,17 @@ async function exitEarly(){
         document.getElementById("checkExit").style.color = "#6594b0";
         document.getElementById("updateDate").style.color = "#6594b0";
         console.log("FAILED EXIT");
-        duration = Math.round(parseFloat(moment().subtract(startMoment) / 60000));
-        end = fixMoment(String(moment().format()));
-        success = false;
+        dur = Math.round(parseFloat(moment().subtract(startMoment) / 60000));
+        nd = fixMoment(String(moment().format()));
+        scs = false;
         studying = false;
 
-        postSession();
-        console.log("START: " + start);
-        console.log("END:   " + end);
-        console.log("DURATION: " + duration);
-        console.log("SUCCESS: " + success);
-        console.log("USERID: " + userId);
+        await postSession();
+        console.log("START: " + strt);
+        console.log("END:   " + nd);
+        console.log("DURATION: " + dur);
+        console.log("SUCCESS: " + scs);
+        console.log("USERID: " + localStorage.id);
     }
 }
 
@@ -342,21 +342,6 @@ function onload(type){
         adjustTime(0);
         adjustSession(0);
         updateDate();
-        /*fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
-            method: 'POST', // or 'PUT'
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(output),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-            console.log('Success:', data);
-            })
-            .catch((error) => {
-            console.error('Error:', error);
-            });
-        */
     }
 }
 
@@ -377,28 +362,22 @@ function getUsers(){
         });
 }
 
-function postSession(){
+async function postSession(){
     const output = {
-        userId:userId,
-        duration:duration,
-        success:success,
-        start:start,
-        end:end
+        userId:localStorage.id,
+        duration:dur,
+        success:scs,
+        start:strt,
+        end:nd
     }
-    fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
-            method: 'POST', // or 'PUT'
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(output),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-            console.log('Success:', data);
-            })
-            .catch((error) => {
-            console.error('Error:', error);
-            });
+    const post = await fetch('https://taumy-study-buddy.onrender.com/api/study/createSession', {
+        method: 'POST', // or 'PUT'
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(output),
+    });
+    console.log(post);
 }
 
 function updateUser(change){
@@ -411,10 +390,10 @@ function updateUser(change){
 }
 
 function login(){
-    userId = document.getElementById("ID" + String(user)).innerHTML;
+    localStorage.id = document.getElementById("ID" + String(user)).innerHTML;
     localStorage.n = document.getElementById("N" + String(user)).innerHTML;
     console.log(n);
-    console.log(userId);
+    console.log(localStorage.id);
     window.location.href="timer.html"
 }
 
