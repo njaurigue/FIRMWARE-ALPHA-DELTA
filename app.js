@@ -120,7 +120,7 @@ async function startTimer(time){
                 spread: 100,
                 particleCount: 10
             });
-            await sleep(0.5);
+            await sleep(0.75);
         }
 
         console.log("START: " + start);
@@ -249,7 +249,7 @@ function adjustTime(min){
 }
 
 function adjustSession(s){
-    if(sessionGoal > 1 && s < 0){
+    if(sessionGoal > 1 && s < 0 && sessionGoal > session){
         sessionGoal--;
     }else if(sessionGoal < 5 && s > 0){
         sessionGoal++;
