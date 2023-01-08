@@ -9,22 +9,24 @@
         <script src="app.js"></script>
     </head>
     <body id="body" onload="onload('timer')">
-        <div class="main">
-            <div class="header-message">
-                <h1 id="text">Welcome!</h1>
-                <h4 id="date">xx/xx/xx</h4>
-            </div>
-            <div>
-                <button id="ABORT" onclick="abort()"><img id="face" src="GIFS/emotionHappy.gif"></button>
-            </div>
-            <div>
-                <button id="timerButton" onclick="setVisibility()"><h1 id="clock">0:00</h1></button>
-                <h2 id="session">Sessions: 0/1</h2>
-            </div>
-            <div class="checks">
-                <button class="button" id="checkExit" onclick="checkExit()">checkExit</button>
-                <button class="button" id="checkEnter" onclick="checkEnter()">checkEnter</button>
-                <button class="button" id="updateDate" onclick="updateDate()">updateDate</button>
+        <div class="container">
+            <div class="main">
+                <div class="header-message">
+                    <h1 id="text">Welcome!</h1>
+                    <h4 id="date">xx/xx/xx</h4>
+                </div>
+                <div class="taumy">
+                    <img id="face" src="GIFS/ezgif.com-gif-maker (7).gif">
+                </div>
+                <div class="timer">
+                    <button id="timerButton" onclick="setVisibility()"><h1 id="clock">0:00</h1></button>
+                    <h2 id="session">Sessions: 0/1</h2>
+                </div>
+                <div class="checks">
+                    <button class="button" id="checkExit" onclick="checkExit()">checkExit</button>
+                    <button class="button" id="checkEnter" onclick="checkEnter()">checkEnter</button>
+                    <button class="button" id="updateDate" onclick="updateDate()">updateDate</button>
+                </div>
             </div>
             <div class="buttons">
                 <button class="button" id="B1" onclick="restart()">RESTART</button>
