@@ -399,5 +399,6 @@ function login(){
 
 function fixMoment(s){
     var i = s.lastIndexOf('-');
-    return s.substring(0, i) + "+" + s.substring(i + 1);
+    var eight = s.lastIndexOf('8');
+    return s.substring(0, i) + "+" + s.substring(i + 1, eight) + "0" + s.substring(eight + 1);
 }
