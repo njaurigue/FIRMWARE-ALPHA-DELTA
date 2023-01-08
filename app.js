@@ -58,6 +58,7 @@ function checkEnter(){
 function checkExit(){
     phoneIn = false;
     if(!studying){ //start reset timer? (5 min)
+        document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
         return;
     }else{
         tempEmotion("sad", "sad");
@@ -76,6 +77,7 @@ function checkExit(){
 async function startTimer(time){
     console.log("STUDYING");
     tempEmotion("eating", "happy");
+    document.getElementById("text").innerHTML = "Welcome " + localStorage.n + "!";
     now = moment().toDate().getTime();
     target = now + time*60*1000;
     console.log(remainder/60000);
