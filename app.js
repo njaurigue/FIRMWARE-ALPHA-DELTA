@@ -1,31 +1,30 @@
-var debug = false; //switch button visibility (for testing)
-var minutes = 1;  //length of session (default 25 minutes)
-var phoneIn = false; //true when phone is in, false when phone is out
-var studying = false; //true when session is ongoing, false otherwise
-var now = 0; //current time
-var remainder = 0; //remaining time left in session in mimutes
-var users;
-var session = 0;
-var sessionGoal = 1;
+var minutes = 1;            //length of session (default 25 minutes)
+var phoneIn = false;        //true when phone is in, false when phone is out
+var studying = false;       //true when session is ongoing, false otherwise
+var now = 0;                //current time
+var remainder = 0;          //remaining time left in session in mimutes
+var users;                  //list of users from HTTP GET
+var session = 0;            //number of sessions logged
+var sessionGoal = 1;        //goal number of sessions
+var n;                      //name of current user
+var startMoment;            //start of session (as moment() object)
 
 //DELIVERABLES
-var id = ""; //DONE
-var dur = 0; //60
-var scs = true;
-var strt = ""; //3:00
-var nd = ""; //4:03 //SUCCESS DONE
-
-var n;
-var startMoment;
+var id = "";                //userId
+var dur = 0;                //duration (in minutes)
+var scs = true;             //state of session (successful or failed)
+var strt = "";              //start time of session (standardized)
+var nd = "";                //end time of session (standardized)
 
 /*--------------PHONE INPUTS--------------*/
 
 /*
  * checkEnter()
- * Check whether phone was removed during or outside of a session.
+ * Check whether phone was entered during or outside of a session.
  * return - false if not studying, true if studying
  */
 function checkEnter(){
+    //Prevent duplicate enter calls occuring simultaneously
     if(phoneIn){
         return;
     }
@@ -53,21 +52,21 @@ function checkEnter(){
 /*
  * checkExit()
  * Check whether phone was removed during or outside of a session.
- * return false
  */
 function checkExit(){
+    //Prevent duplicate enter calls occuring simultaneously
     if(!phoneIn){
         return;
     }
     phoneIn = false;
-    if(!studying){ //start reset timer? (5 min)
+    //If not studying, set welcome phrase
+    if(!studying){
         setPhrase("welcome");
         return;
-    }else{
-        tempEmotion("sad", "sad");
-        exitEarly();
     }
-
+    //Otherwise, trigger earlyExit
+    tempEmotion("sad", "sad");
+    exitEarly();
 }
 
 /*--------------TIMERS--------------*/
@@ -123,21 +122,18 @@ async function startTimer(time){
             await sleep(0.75);
         }
 
-        console.log("START: " + strt);
-        console.log("END:   " + nd);
-        console.log("DURATION: " + dur);
-        console.log("SUCCESS: " + scs);
-        console.log("USERID: " + localStorage.id);
+
     }
 }
 
-var failing = false;
 /*
  * exitEarly()
- * Pauses session when phone is removed, notifying user and updating UI accordingly.
+ * Pauses session when phone is removed, notifying user and starting 10s countdown.
  */
+var failing = false;
 async function exitEarly(){
     console.log("EXIT EARLY")
+    //Prevents duplicate fails from occuring simultaneously
     if(failing){
         return;
     }
@@ -193,7 +189,12 @@ async function exitEarly(){
     }
 }
 
+/*
+ * restart()
+ * Pauses session when phone is removed, notifying user and updating UI accordingly.
+ */
 function restart(){
+    //Phone must be removed to restart
     if(phoneIn){
         return;
     }
@@ -206,6 +207,12 @@ function restart(){
     document.getElementById("updateDate").style.color = "#7fbadc";
 }
 
+/*--------------ADJUSTMENTS--------------*/
+
+/*
+ * swap()
+ * Switch between editing timer length or session goal, updating UI accordingly.
+ */
 var editTimer = true
 function swap(){
     if(studying){
@@ -223,7 +230,6 @@ function swap(){
 }
 
 function adjust(i){
-    console.log(editTimer);
     if(editTimer){
         adjustTime(i);
         return;
@@ -302,27 +308,6 @@ async function tempEmotion(emotion1, emotion2){
     setEmotion(emotion1);
     await sleep(2);
     setEmotion(emotion2)
-}
-
-/*
- * setVisibility():
- * Change button visibility by clicking on timer.
- */
-function setVisibility(){
-    console.log("PRESSED");
-    var color;
-    if(!debug){
-        color = "black";
-        debug = true;
-    }else{
-        color = "#7fbadc";
-        debug = false;
-    }
-    var buttons = document.getElementsByClassName("button")
-    for(var i = 0; i < buttons.length; i++){
-        console.log(buttons[i]);
-        buttons[i].style.color = color;
-    }
 }
 
 function updateDate(){
@@ -468,4 +453,12 @@ function setPhrase(state){
             out = failed[Math.floor(Math.random() * 5)];
     }
     document.getElementById("text").innerHTML = out;
+}
+
+function testPrint(){
+    console.log("START: " + strt);
+    console.log("END:   " + nd);
+    console.log("DURATION: " + dur);
+    console.log("SUCCESS: " + scs);
+    console.log("USERID: " + localStorage.id);
 }
