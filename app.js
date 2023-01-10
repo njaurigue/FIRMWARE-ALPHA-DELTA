@@ -257,6 +257,10 @@ function adjustTime(min){
     console.log(minutes)
 }
 
+/*
+ * adjustSession(s):
+ * Change global session variable by specified amount
+ */ 
 function adjustSession(s){
     if(sessionGoal > 1 && s < 0 && sessionGoal > session){
         sessionGoal--;
